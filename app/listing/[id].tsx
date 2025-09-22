@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -25,27 +25,66 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { mockListings } from '@/mocks/listings';
 import * as Haptics from 'expo-haptics';
+import { eventBus, BidPlacedEvent } from '@/lib/eventBus';
 
 const { width } = Dimensions.get('window');
 
 export default function ListingDetailScreen() {
-  const { id } = useLocalSearchParams();
-  const [isWatching, setIsWatching] = useState(false);
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const [isWatching, setIsWatching] = useState<boolean>(false);
+  const [currentBid, setCurrentBid] = useState<number>(0);
+  const [endAt, setEndAt] = useState<Date>(new Date());
+  const [bidCount, setBidCount] = useState<number>(0);
+  const [showSuccess, setShowSuccess] = useState<number | null>(null);
+  const [nowTick, setNowTick] = useState<number>(Date.now());
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const { data: listing } = useQuery({
     queryKey: ['listing', id],
     queryFn: async () => {
       await new Promise(resolve => setTimeout(resolve, 500));
-      return mockListings.find(l => l.id === id) || mockListings[0];
+      const found = mockListings.find(l => l.id === id) || mockListings[0];
+      return found;
     },
   });
+
+  useEffect(() => {
+    if (!listing) return;
+    setCurrentBid(listing.currentBid);
+    setEndAt(new Date(listing.endAt));
+    setBidCount(listing.bidCount);
+  }, [listing]);
+
+  useEffect(() => {
+    const interval = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const off = eventBus.on<BidPlacedEvent>('bid:placed', (evt) => {
+      if (!evt || !id) return;
+      if (evt.listingId !== String(id)) return;
+      setCurrentBid((prev) => Math.max(prev, evt.amount));
+      setBidCount((prev) => prev + 1);
+      const msLeft = new Date(endAt).getTime() - Date.now();
+      const fifteenMin = 15 * 60 * 1000;
+      if (msLeft <= fifteenMin) {
+        const newEnd = new Date(Date.now() + fifteenMin);
+        setEndAt(newEnd);
+      }
+      setShowSuccess(evt.amount);
+      setTimeout(() => setShowSuccess(null), 2500);
+    });
+    return () => {
+      off?.();
+    };
+  }, [endAt, id]);
 
   const handleBidPress = () => {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    router.push('/bid-modal');
+    router.push({ pathname: '/bid-modal', params: { id: String(id ?? ''), currentBid: String(currentBid) } });
   };
 
   const handleDepositPress = () => {
@@ -71,17 +110,19 @@ export default function ListingDetailScreen() {
     }).format(amount);
   };
 
-  const formatTimeLeft = (endAt: Date) => {
+  const formatTimeLeft = (end: Date) => {
     const now = new Date();
-    const diff = endAt.getTime() - now.getTime();
+    const diff = end.getTime() - now.getTime();
+    if (diff <= 0) return 'Ended';
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
-    if (hours > 24) {
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    if (hours >= 24) {
       const days = Math.floor(hours / 24);
       return `${days}d ${hours % 24}h`;
     }
-    return `${hours}h ${minutes}m`;
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m ${seconds}s`;
   };
 
   if (!listing) return null;
@@ -124,18 +165,18 @@ export default function ListingDetailScreen() {
             <View style={styles.statsRow}>
               <View style={styles.stat}>
                 <Text style={styles.statLabel}>Current Bid</Text>
-                <Text style={styles.statValue}>{formatPrice(listing.currentBid)}</Text>
+                <Text style={styles.statValue} testID="current-bid-value">{formatPrice(currentBid)}</Text>
               </View>
               <View style={styles.stat}>
                 <Text style={styles.statLabel}>Time Left</Text>
                 <View style={styles.timeRow}>
                   <Clock color="#8B5CF6" size={16} />
-                  <Text style={styles.statValue}>{formatTimeLeft(listing.endAt)}</Text>
+                  <Text style={styles.statValue} testID="time-left-value">{formatTimeLeft(endAt)}</Text>
                 </View>
               </View>
               <View style={styles.stat}>
                 <Text style={styles.statLabel}>Bids</Text>
-                <Text style={styles.statValue}>{listing.bidCount}</Text>
+                <Text style={styles.statValue} testID="bid-count-value">{bidCount}</Text>
               </View>
             </View>
 
@@ -246,6 +287,12 @@ export default function ListingDetailScreen() {
           </LinearGradient>
         </TouchableOpacity>
       </View>
+
+      {showSuccess !== null && (
+        <View style={styles.successToast} accessibilityLiveRegion="polite" testID="bid-success-toast">
+          <Text style={styles.successToastText}>Bid placed successfully: {formatPrice(showSuccess)}</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -455,5 +502,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
     marginLeft: 6,
+  },
+  successToast: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
+    bottom: 90,
+    backgroundColor: 'rgba(34,197,94,0.95)',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  successToastText: {
+    color: '#FFF',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,38 @@ import {
   Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { X, Plus, Minus, TrendingUp } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import { eventBus } from '@/lib/eventBus';
 
 export default function BidModal() {
-  const [bidAmount, setBidAmount] = useState(55000);
-  const currentBid = 50000;
-  const minIncrement = 500;
+  const params = useLocalSearchParams<{ id?: string; currentBid?: string }>();
+  const baseCurrentBid: number = useMemo(() => {
+    const n = parseInt(params.currentBid ?? '0', 10);
+    return Number.isFinite(n) ? n : 0;
+  }, [params.currentBid]);
+
+  const computeIncrement = (price: number): number => {
+    if (price < 1000) return 25;
+    if (price < 5000) return 100;
+    if (price < 10000) return 250;
+    if (price < 50000) return 500;
+    if (price < 100000) return 1000;
+    if (price < 250000) return 2500;
+    if (price < 500000) return 5000;
+    return 10000;
+  };
+
+  const [minIncrement, setMinIncrement] = useState<number>(computeIncrement(baseCurrentBid));
+  const [bidAmount, setBidAmount] = useState<number>(baseCurrentBid + computeIncrement(baseCurrentBid));
+
+  useEffect(() => {
+    const inc = computeIncrement(bidAmount);
+    setMinIncrement(inc);
+  }, [bidAmount]);
+
+  const currentBid = baseCurrentBid;
 
   const handleClose = () => {
     if (Platform.OS !== 'web') {
@@ -29,7 +53,7 @@ export default function BidModal() {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-    setBidAmount(prev => prev + minIncrement);
+    setBidAmount((prev: number) => prev + minIncrement);
   };
 
   const handleDecrement = () => {
@@ -37,7 +61,7 @@ export default function BidModal() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     if (bidAmount > currentBid + minIncrement) {
-      setBidAmount(prev => prev - minIncrement);
+      setBidAmount((prev: number) => prev - minIncrement);
     }
   };
 
@@ -45,6 +69,7 @@ export default function BidModal() {
     if (Platform.OS !== 'web') {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
+    eventBus.emit('bid:placed', { listingId: String(params.id ?? ''), amount: bidAmount });
     router.back();
   };
 
@@ -101,7 +126,10 @@ export default function BidModal() {
                     <TextInput
                       style={styles.bidInput}
                       value={bidAmount.toString()}
-                      onChangeText={(text) => setBidAmount(parseInt(text) || 0)}
+                      onChangeText={(text) => {
+                        const n = parseInt(text.replace(/[^0-9]/g, ''), 10);
+                        setBidAmount(Number.isFinite(n) ? n : 0);
+                      }}
                       keyboardType="numeric"
                     />
                   </View>
@@ -118,9 +146,9 @@ export default function BidModal() {
               <View style={styles.quickBids}>
                 <Text style={styles.quickBidsLabel}>Quick Bid</Text>
                 <View style={styles.quickBidButtons}>
-                  {[1000, 5000, 10000].map((increment) => (
+                  {[1, 5, 10].map((mult) => { const increment = minIncrement * mult; return (
                     <TouchableOpacity
-                      key={increment}
+                      key={mult}
                       style={styles.quickBidButton}
                       onPress={() => setBidAmount(currentBid + increment)}
                     >
@@ -128,19 +156,19 @@ export default function BidModal() {
                         +{formatPrice(increment)}
                       </Text>
                     </TouchableOpacity>
-                  ))}
+                  )})}
                 </View>
               </View>
 
               <View style={styles.infoCard}>
                 <TrendingUp color="#8B5CF6" size={20} />
                 <Text style={styles.infoText}>
-                  Anti-snipe protection: Bids in the last 2 minutes extend the auction
+                  Anti-snipe protection: Bids in the last 15 minutes reset the 15m clock
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity style={styles.placeBidButton} onPress={handlePlaceBid}>
+            <TouchableOpacity style={[styles.placeBidButton, (bidAmount < currentBid + minIncrement) && { opacity: 0.6 }]} onPress={handlePlaceBid} disabled={bidAmount < currentBid + minIncrement} testID="place-bid-button">
               <LinearGradient
                 colors={['#8B5CF6', '#6366F1']}
                 style={styles.bidGradient}
