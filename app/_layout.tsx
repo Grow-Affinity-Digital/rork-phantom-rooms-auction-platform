@@ -9,6 +9,7 @@ import { ThemeProvider, useTheme } from "@/providers/ThemeProvider";
 import { trpc, trpcClient } from "@/lib/trpc";
 import { ClerkWrapper } from "@/providers/ClerkProvider";
 import { StorageProvider } from "@/providers/StorageProvider";
+import { PhantomRoomsLogo } from "@/components/PhantomRoomsLogo";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +40,7 @@ function RootLayoutNav() {
       headerTitleStyle: {
         fontWeight: '600',
       },
+      headerTitle: () => <PhantomRoomsLogo size={24} testID="stack-header-logo" />,
       contentStyle: {
         backgroundColor: colors.background,
       }

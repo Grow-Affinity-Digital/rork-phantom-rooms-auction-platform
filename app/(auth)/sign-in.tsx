@@ -5,6 +5,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ArrowLeft, Apple } from 'lucide-react-native';
+import { PhantomRoomsLogo } from '@/components/PhantomRoomsLogo';
 
 export default function SignInScreen() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -121,7 +122,7 @@ export default function SignInScreen() {
       
       <View style={styles.form}>
         <View style={styles.brandHeader}>
-          <Image source={require('../../assets/images/splash-icon.png')} style={styles.logoSmall} />
+          <PhantomRoomsLogo size={48} />
           <Text style={styles.brandTitle}>Phantom Rooms</Text>
         </View>
 

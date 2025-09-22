@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ChevronRight, Gamepad2, TrendingUp, Shield, Sparkles } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+import { PhantomRoomsLogo } from '@/components/PhantomRoomsLogo';
 
 const { width } = Dimensions.get('window');
 
@@ -93,6 +94,9 @@ export default function OnboardingScreen() {
     <LinearGradient colors={['#0A0A0B', '#1A1A2E']} style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
+          <View style={styles.brandTop}>
+            <PhantomRoomsLogo size={32} testID="onboarding-logo" />
+          </View>
           <ScrollView
             ref={scrollViewRef}
             horizontal
@@ -144,6 +148,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  brandTop: {
+    alignItems: 'center',
+    paddingTop: 12,
   },
   scrollView: {
     flex: 1,

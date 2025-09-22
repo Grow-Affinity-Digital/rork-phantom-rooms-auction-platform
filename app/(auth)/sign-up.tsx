@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ArrowLeft, ChevronRight, Star, Apple, Home, Tag, Briefcase, Eye } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PhantomRoomsLogo, PhantomRoomsAppIcon } from '@/components/PhantomRoomsLogo';
 
 type Step = 'splash' | 'survey' | 'form';
 
@@ -116,10 +117,7 @@ export default function SignUpScreen() {
 
       {step === 'splash' && (
         <View style={styles.centerWrap} testID="signup-splash">
-          <Image
-            source={require('../../assets/images/splash-icon.png')}
-            style={styles.logo}
-          />
+          <PhantomRoomsAppIcon size={96} testID="signup-splash-appicon" />
           <Text style={styles.appTitle}>Phantom Rooms</Text>
           <Text style={styles.appTag}>Rare spaces. Real opportunities.</Text>
           <TouchableOpacity style={styles.ctaBtn} onPress={() => proceed('survey')} testID="signup-get-started">
@@ -184,7 +182,7 @@ export default function SignUpScreen() {
       {step === 'form' && (
         <View style={styles.form} testID="signup-form">
           <View style={styles.brandHeader}>
-            <Image source={require('../../assets/images/splash-icon.png')} style={styles.logoSmall} />
+            <PhantomRoomsLogo size={48} testID="signup-brand-logo" />
             <Text style={styles.brandTitle}>Phantom Rooms</Text>
           </View>
 

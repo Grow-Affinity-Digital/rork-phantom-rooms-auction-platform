@@ -1,10 +1,11 @@
 import { Tabs, router } from "expo-router";
 import React, { useCallback } from "react";
 import { Platform } from "react-native";
-import { Search, Package, ShoppingBag, Bell, User } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 import { useAuth } from "@/providers/AuthProvider";
 import { useTheme } from "@/providers/ThemeProvider";
+import { PhantomRoomsLogo } from "@/components/PhantomRoomsLogo";
+import { ExploreIcon, SellingIcon, BuyingIcon, AlertsIcon, ProfileIcon } from "@/components/IconSet";
 
 export default function TabLayout() {
   const { user } = useAuth();
@@ -61,29 +62,29 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: "Explore",
-          tabBarIcon: ({ color }) => <Search color={color} size={24} />,
-          headerTitle: "Phantom Rooms™",
+          tabBarIcon: ({ color }) => <ExploreIcon color={color} size={24} />,
+          headerTitle: () => <PhantomRoomsLogo size={28} testID="header-logo" />,
         }}
       />
       <Tabs.Screen
         name="selling"
         options={{
           title: "Selling",
-          tabBarIcon: ({ color }) => <Package color={color} size={24} />,
+          tabBarIcon: ({ color }) => <SellingIcon color={color} size={24} />,
         }}
       />
       <Tabs.Screen
         name="buying"
         options={{
           title: "Buying",
-          tabBarIcon: ({ color }) => <ShoppingBag color={color} size={24} />,
+          tabBarIcon: ({ color }) => <BuyingIcon color={color} size={24} />,
         }}
       />
       <Tabs.Screen
         name="alerts"
         options={{
           title: "Alerts",
-          tabBarIcon: ({ color }) => <Bell color={color} size={24} />,
+          tabBarIcon: ({ color }) => <AlertsIcon color={color} size={24} />,
           tabBarBadge: 3,
         }}
       />
@@ -91,7 +92,7 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => <User color={color} size={24} />,
+          tabBarIcon: ({ color }) => <ProfileIcon color={color} size={24} />,
         }}
       />
     </Tabs>
