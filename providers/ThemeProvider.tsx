@@ -39,62 +39,66 @@ export interface ThemeContextType {
   toggleTheme: () => void;
 }
 
+const BRAND = {
+  purple: '#AB54F7',
+  blue: '#4F46E5',
+  deepPurple: '#6B46C1',
+  dark: '#1E1B4B',
+  lightPurple: '#8B5CF6',
+} as const;
+
 const darkTheme: ThemeColors = {
-  primary: '#8B5CF6',
-  secondary: '#6366F1',
-  background: '#0A0A0B',
-  surface: '#121217',
-  surfaceElevated: '#1C1C27',
-  card: '#1A1A2E',
-  input: '#0F0F14',
+  primary: BRAND.purple,
+  secondary: BRAND.blue,
+  background: BRAND.dark,
+  surface: '#17153a',
+  surfaceElevated: '#221f52',
+  card: '#141236',
+  input: '#0F0F2A',
   overlay: 'rgba(0,0,0,0.6)',
   text: '#FFFFFF',
-  textSecondary: '#9CA3AF',
-  border: '#2A2A3E',
+  textSecondary: '#C7C9E2',
+  border: '#2C2A5A',
   success: '#10B981',
   warning: '#F59E0B',
   error: '#EF4444',
-  accent: '#22D3EE',
+  accent: BRAND.lightPurple,
   accent2: '#F472B6',
   accent3: '#34D399',
   link: '#60A5FA',
-  gradientPrimary: ['#8B5CF6', '#6366F1'],
-  gradientAccent: ['#22D3EE', '#8B5CF6'],
+  gradientPrimary: [BRAND.purple, BRAND.blue],
+  gradientAccent: [BRAND.lightPurple, BRAND.purple],
 };
 
 const lightTheme: ThemeColors = {
-  primary: '#6D28D9',
-  secondary: '#4338CA',
+  primary: BRAND.purple,
+  secondary: BRAND.blue,
   background: '#FFFFFF',
-  surface: '#F8FAFC',
-  surfaceElevated: '#F1F5F9',
+  surface: '#F7F7FB',
+  surfaceElevated: '#EEF0FB',
   card: '#FFFFFF',
   input: '#FFFFFF',
   overlay: 'rgba(0,0,0,0.08)',
-  text: '#0F172A',
-  textSecondary: '#475569',
-  border: '#E2E8F0',
+  text: '#111827',
+  textSecondary: '#4B5563',
+  border: '#E5E7EB',
   success: '#059669',
   warning: '#D97706',
   error: '#DC2626',
-  accent: '#0891B2',
-  accent2: '#DB2777',
-  accent3: '#10B981',
+  accent: BRAND.lightPurple,
+  accent2: BRAND.purple,
+  accent3: BRAND.blue,
   link: '#2563EB',
-  gradientPrimary: ['#8B5CF6', '#6366F1'],
-  gradientAccent: ['#06B6D4', '#8B5CF6'],
+  gradientPrimary: [BRAND.purple, BRAND.blue],
+  gradientAccent: [BRAND.lightPurple, BRAND.purple],
 };
 
 const brandPalette: string[] = [
-  '#8B5CF6',
-  '#6366F1',
-  '#22D3EE',
-  '#F472B6',
-  '#34D399',
-  '#F59E0B',
-  '#60A5FA',
-  '#F43F5E',
-  '#A3E635',
+  BRAND.purple,
+  BRAND.blue,
+  BRAND.deepPurple,
+  BRAND.dark,
+  BRAND.lightPurple,
 ];
 
 const THEME_KEY = 'app_theme_mode_v1';
@@ -172,10 +176,14 @@ export const [ThemeProvider, useTheme] = createContextHook<ThemeContextType>(() 
   }), [colors, mode, isDark, computedPrimary, setPrimaryColor, setMode, toggleTheme]);
 
   if (Platform.OS === 'web') {
-    const root = document?.documentElement;
+    const root = document?.documentElement as HTMLElement | null;
     if (root) {
       root.style.backgroundColor = colors.background;
       root.style.color = colors.text;
+      root.style.setProperty('--phantom-purple', BRAND.purple);
+      root.style.setProperty('--phantom-blue', BRAND.blue);
+      root.style.setProperty('--phantom-dark', BRAND.dark);
+      root.style.setProperty('--phantom-light', BRAND.lightPurple);
     }
   }
 
