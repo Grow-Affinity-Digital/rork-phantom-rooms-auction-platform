@@ -136,7 +136,7 @@ export default function SignUpScreen() {
 
           <View style={styles.choicesGrid}>
             <ChoiceCard
-              icon={<Home color="#FFF" size={28} />}
+              icon={<Home color="#FFF" size={24} />}
               label="Buying"
               description="Looking to acquire"
               selected={role === 'buyer'}
@@ -145,7 +145,7 @@ export default function SignUpScreen() {
               accentColor="#10B981"
             />
             <ChoiceCard
-              icon={<Tag color="#FFF" size={28} />}
+              icon={<Tag color="#FFF" size={24} />}
               label="Selling"
               description="Ready to list"
               selected={role === 'seller'}
@@ -154,7 +154,7 @@ export default function SignUpScreen() {
               accentColor="#F59E0B"
             />
             <ChoiceCard
-              icon={<Briefcase color="#FFF" size={28} />}
+              icon={<Briefcase color="#FFF" size={24} />}
               label="Broker"
               description="Representing clients"
               selected={role === 'broker'}
@@ -335,9 +335,9 @@ const styles = StyleSheet.create({
   appTitle: { color: '#FFF', fontSize: 28, fontWeight: '700' as const, marginTop: 16 },
   appTag: { color: '#A1A1AA', fontSize: 14, marginTop: 6 },
   ctaBtn: { height: 52, borderRadius: 26, overflow: 'hidden', marginTop: 24, width: 240 },
-  form: { flex: 1, justifyContent: 'center', maxWidth: 420, alignSelf: 'center', width: '100%' },
-  title: { color: '#FFF', fontSize: 26, fontWeight: '700' as const, marginBottom: 8, textAlign: 'center' as const },
-  subtitle: { color: '#A1A1AA', fontSize: 14, marginBottom: 16, textAlign: 'center' as const },
+  form: { flex: 1, justifyContent: 'center', maxWidth: 420, alignSelf: 'center', width: '100%', paddingVertical: 20 },
+  title: { color: '#FFF', fontSize: 24, fontWeight: '700' as const, marginBottom: 6, textAlign: 'center' as const },
+  subtitle: { color: '#A1A1AA', fontSize: 13, marginBottom: 12, textAlign: 'center' as const },
   oauthRow: { gap: 10 as const, marginTop: 8, marginBottom: 12 },
   socialBtn: { height: 48, borderRadius: 10, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 as const },
   appleBtn: { backgroundColor: '#000000', borderWidth: 1, borderColor: '#000000' },
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   linkText: { color: '#A1A1AA', fontSize: 14 },
   link: { padding: 4 },
   linkHighlight: { color: '#8B5CF6', fontSize: 14, fontWeight: '600' as const },
-  choicesGrid: { gap: 12 as const, marginBottom: 24, marginTop: 8 },
+  choicesGrid: { gap: 10 as const, marginBottom: 16, marginTop: 4 },
   choice: {
     borderRadius: 20,
     borderWidth: 2,
@@ -375,21 +375,21 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   choiceGradient: {
-    paddingVertical: 24,
-    paddingHorizontal: 20,
+    paddingVertical: 18,
+    paddingHorizontal: 16,
     alignItems: 'center',
-    minHeight: 160,
+    minHeight: 130,
     justifyContent: 'center',
   },
   choiceIconBg: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
-  choiceLabel: { color: '#FFF', fontSize: 18, fontWeight: '700' as const, marginBottom: 6 },
+  choiceLabel: { color: '#FFF', fontSize: 17, fontWeight: '700' as const, marginBottom: 4 },
   choiceDescription: { color: '#9CA3AF', fontSize: 13, fontWeight: '500' as const },
   selectedBadge: {
     position: 'absolute' as const,
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  bullets: { gap: 10 as const, marginVertical: 12, paddingHorizontal: 8 },
+  bullets: { gap: 8 as const, marginVertical: 10, paddingHorizontal: 8 },
   bulletItem: { flexDirection: 'row', alignItems: 'center' },
   bulletDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#8B5CF6', marginRight: 8 },
   bulletText: { color: '#D1D5DB', fontSize: 13 },
