@@ -29,7 +29,7 @@ export default function SellingScreen() {
             testID="selling-upgrade"
           >
             <LinearGradient colors={[colors.gradientPrimary[0], colors.gradientPrimary[1]]} style={styles.subscribeGradient}>
-              <Text style={styles.subscribeText}>Upgrade to Premium</Text>
+              <Text style={[styles.subscribeText, { color: colors.background }]}>Upgrade to Premium</Text>
             </LinearGradient>
           </TouchableOpacity>
         </LinearGradient>
@@ -81,8 +81,8 @@ export default function SellingScreen() {
           colors={[colors.gradientPrimary[0], colors.gradientPrimary[1]]}
           style={styles.buttonGradient}
         >
-          <Plus color="#FFF" size={24} />
-          <Text style={styles.buttonText}>Create New Listing</Text>
+          <Plus color={colors.background} size={24} />
+          <Text style={[styles.buttonText, { color: colors.background }]}>Create New Listing</Text>
         </LinearGradient>
       </TouchableOpacity>
 
@@ -139,8 +139,7 @@ const styles = StyleSheet.create({
   },
   subscribeText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
+    fontWeight: '700',
   },
   header: {
     padding: 20,
@@ -189,9 +188,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    color: '#FFF',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
     marginLeft: 8,
   },
   section: {

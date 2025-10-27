@@ -52,11 +52,11 @@ export default function ProfileScreen() {
             {user?.name?.charAt(0).toUpperCase() || 'U'}
           </Text>
         </View>
-        <Text style={[styles.userName, { color: '#FFF' }]}>{user?.name || 'User'}</Text>
-        <Text style={[styles.userEmail, { color: 'rgba(255, 255, 255, 0.8)' }]}>{user?.email || 'user@example.com'}</Text>
+        <Text style={[styles.userName, { color: isDark ? '#FFF' : colors.background }]}>{user?.name || 'User'}</Text>
+        <Text style={[styles.userEmail, { color: isDark ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.7)' }]}>{user?.email || 'user@example.com'}</Text>
         <View style={[styles.roleBadge, { backgroundColor: 'rgba(255, 255, 255, 0.2)' }]}
           testID="role-badge">
-          <Text style={styles.roleText}>{user?.role?.toUpperCase() || 'BUYER'}</Text>
+          <Text style={[styles.roleText, { color: isDark ? '#FFF' : colors.background }]}>{user?.role?.toUpperCase() || 'BUYER'}</Text>
         </View>
       </LinearGradient>
 
@@ -94,7 +94,7 @@ export default function ProfileScreen() {
               style={[styles.chip, { backgroundColor: mode === m ? colors.primary : colors.card, borderColor: colors.border }]}
               testID={`mode-${m}`}
             >
-              <Text style={[styles.chipText, { color: mode === m ? '#FFF' : colors.text }]}>{m.toUpperCase()}</Text>
+              <Text style={[styles.chipText, { color: mode === m ? colors.background : colors.text, fontWeight: mode === m ? '700' : '500' }]}>{m.toUpperCase()}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -209,7 +209,6 @@ const styles = StyleSheet.create({
   roleText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#FFF',
   },
   subscriptionCard: {
     marginHorizontal: 20,

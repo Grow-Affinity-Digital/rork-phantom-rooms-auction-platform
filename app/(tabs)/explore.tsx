@@ -98,7 +98,7 @@ export default function ExploreScreen() {
                 style={[
                   styles.categoryText,
                   { color: colors.textSecondary },
-                  selectedCategory === category && { color: '#FFF' },
+                  selectedCategory === category && { color: colors.background, fontWeight: '700' },
                 ]}
               >
                 {category}
@@ -264,17 +264,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderBottomWidth: 1,
   },
   categoriesScroll: {
     paddingHorizontal: 16,
   },
   categoryPill: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-    marginRight: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 16,
+    marginRight: 10,
     borderWidth: 1,
   },
   categoryText: {

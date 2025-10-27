@@ -1,6 +1,6 @@
 import { Tabs, router } from "expo-router";
 import React, { useCallback } from "react";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import * as Haptics from "expo-haptics";
 import { useAuth } from "@/providers/AuthProvider";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -63,7 +63,12 @@ export default function TabLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color }) => <ExploreIcon color={color} size={24} />,
-          headerTitle: () => <ObsidianLogo size={28} variant="dark" testID="header-logo" />,
+          headerLeft: () => (
+            <View style={{ marginLeft: 16 }}>
+              <ObsidianLogo size={24} variant="dark" testID="header-logo" />
+            </View>
+          ),
+          headerTitle: "",
         }}
       />
       <Tabs.Screen

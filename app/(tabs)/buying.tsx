@@ -29,7 +29,7 @@ export default function BuyingScreen() {
             testID="buying-upgrade"
           >
             <LinearGradient colors={[colors.gradientPrimary[0], colors.gradientPrimary[1]]} style={styles.subscribeGradient}>
-              <Text style={styles.subscribeText}>Upgrade to Premium</Text>
+              <Text style={[styles.subscribeText, { color: colors.background }]}>Upgrade to Premium</Text>
             </LinearGradient>
           </TouchableOpacity>
         </LinearGradient>
@@ -132,8 +132,7 @@ const styles = StyleSheet.create({
   },
   subscribeText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
+    fontWeight: '700',
   },
   header: {
     padding: 20,
