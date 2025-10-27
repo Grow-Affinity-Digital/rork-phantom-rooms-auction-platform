@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Phantom Rooms Auction Platform",
-    "slug": "phantom-rooms-auction-platform",
+    "name": "Obsidian",
+    "slug": "obsidian",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.rork.phantom-rooms-auction-platform",
+      "bundleIdentifier": "app.obsidian",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to access your Face ID biometric data.",
         "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
@@ -31,7 +31,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.rork.phantom-rooms-auction-platform",
+      "package": "app.obsidian",
       "permissions": [
         "android.permission.VIBRATE",
         "CAMERA",
