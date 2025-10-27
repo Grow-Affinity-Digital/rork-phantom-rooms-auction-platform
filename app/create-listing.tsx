@@ -37,7 +37,7 @@ async function getWebBlobInfo(uri: string): Promise<{ size: number; mimeType: st
 async function getNativeFileInfo(uri: string): Promise<{ size: number; mimeType: string | null }>
 {
   try {
-    const info = await FileSystem.getInfoAsync(uri, { size: true });
+    const info = await FileSystem.getInfoAsync(uri);
     return { size: (info as FileSystem.FileInfo & { size?: number }).size ?? 0, mimeType: null };
   } catch (e) {
     console.log('[CreateListing] getNativeFileInfo error', e);

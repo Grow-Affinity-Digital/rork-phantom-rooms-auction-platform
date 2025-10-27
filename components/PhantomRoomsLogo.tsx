@@ -4,14 +4,13 @@ import Svg, { Path, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
 
 export type LogoProps = {
   size?: number;
-  className?: string;
   testID?: string;
 };
 
-export const PhantomRoomsLogo = memo(function PhantomRoomsLogo({ size = 48, className, testID }: LogoProps) {
+export const PhantomRoomsLogo = memo(function PhantomRoomsLogo({ size = 48, testID }: LogoProps) {
   const s = size;
   return (
-    <View style={[styles.box, { width: s, height: s }]} className={className} testID={testID ?? 'phantom-logo'}>
+    <View style={[styles.box, { width: s, height: s }]} testID={testID ?? 'phantom-logo'}>
       <Svg width={s} height={s} viewBox="0 0 100 100" fill="none">
         <Defs>
           <LinearGradient id="grad" x1="0" y1="0" x2="100" y2="100">
@@ -26,10 +25,10 @@ export const PhantomRoomsLogo = memo(function PhantomRoomsLogo({ size = 48, clas
   );
 });
 
-export const PhantomRoomsIcon = memo(function PhantomRoomsIcon({ size = 24, className, testID }: LogoProps) {
+export const PhantomRoomsIcon = memo(function PhantomRoomsIcon({ size = 24, testID }: LogoProps) {
   const s = size;
   return (
-    <View style={[styles.box, { width: s, height: s }]} className={className} testID={testID ?? 'phantom-icon'}>
+    <View style={[styles.box, { width: s, height: s }]} testID={testID ?? 'phantom-icon'}>
       <Svg width={s} height={s} viewBox="0 0 100 100" fill="none">
         <Rect x="10" y="10" width="80" height="80" rx="20" fill="#AB54F7" />
         <Path d="M35 65V35h15c8.284 0 15 6.716 15 15s-6.716 15-15 15H35z" fill="#0B0B10" />
@@ -38,10 +37,10 @@ export const PhantomRoomsIcon = memo(function PhantomRoomsIcon({ size = 24, clas
   );
 });
 
-export const PhantomRoomsAppIcon = memo(function PhantomRoomsAppIcon({ size = 120, className, testID }: LogoProps) {
+export const PhantomRoomsAppIcon = memo(function PhantomRoomsAppIcon({ size = 120, testID }: LogoProps) {
   const s = size;
   return (
-    <View style={[styles.box, { width: s, height: s }]} className={className} testID={testID ?? 'phantom-app-icon'}>
+    <View style={[styles.box, { width: s, height: s }]} testID={testID ?? 'phantom-app-icon'}>
       <Svg width={s} height={s} viewBox="0 0 180 180" fill="none">
         <Defs>
           <LinearGradient id="grad2" x1="0" y1="0" x2="180" y2="180">

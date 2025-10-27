@@ -19,14 +19,13 @@ import {
 export type IconProps = {
   size?: number;
   color?: string;
-  className?: string;
   testID?: string;
 };
 
 function createIcon(IconComp: ComponentType<{ size?: number; color?: string }>) {
-  const C = ({ size = 24, color = '#111827', className, testID }: IconProps) => {
+  const C = ({ size = 24, color = '#111827', testID }: IconProps) => {
     return (
-      <View style={styles.iconWrap} className={className} testID={testID ?? 'icon-wrap'}>
+      <View style={styles.iconWrap} testID={testID ?? 'icon-wrap'}>
         <IconComp size={size} color={color} />
       </View>
     );
