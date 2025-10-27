@@ -4,13 +4,13 @@ import { useSignUp, useSignIn, useOAuth } from '@clerk/clerk-expo';
 import { Link, useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ArrowLeft, ChevronRight, Star, Apple, Home, Tag, Briefcase, Eye } from 'lucide-react-native';
+import { ArrowLeft, ChevronRight, Star, Apple, Home, Tag, Briefcase } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ObsidianLogo, ObsidianAppIcon } from '@/components/ObsidianLogo';
 
 type Step = 'splash' | 'survey' | 'form';
 
-type Role = 'buyer' | 'seller' | 'broker' | 'visitor';
+type Role = 'buyer' | 'seller' | 'broker';
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -32,7 +32,7 @@ export default function SignUpScreen() {
     const checkPendingRole = async () => {
       try {
         const pendingRole = await AsyncStorage.getItem('pendingRole');
-        if (pendingRole && ['buyer', 'seller', 'broker', 'visitor'].includes(pendingRole)) {
+        if (pendingRole && ['buyer', 'seller', 'broker'].includes(pendingRole)) {
           setRole(pendingRole as Role);
           // If we have a pending role, skip splash and go to survey
           setStep('survey');
@@ -134,34 +134,33 @@ export default function SignUpScreen() {
           <Text style={styles.title}>Tell us about you</Text>
           <Text style={styles.subtitle}>We personalize your experience based on your role</Text>
 
-          <View style={styles.choicesRow}>
+          <View style={styles.choicesGrid}>
             <ChoiceCard
-              icon={<Home color="#FFF" size={18} />}
-              label="Buyer"
+              icon={<Home color="#FFF" size={28} />}
+              label="Buying"
+              description="Looking to acquire"
               selected={role === 'buyer'}
               onPress={() => setRole('buyer')}
               testID="survey-buyer"
+              accentColor="#10B981"
             />
             <ChoiceCard
-              icon={<Tag color="#FFF" size={18} />}
-              label="Seller"
+              icon={<Tag color="#FFF" size={28} />}
+              label="Selling"
+              description="Ready to list"
               selected={role === 'seller'}
               onPress={() => setRole('seller')}
               testID="survey-seller"
+              accentColor="#F59E0B"
             />
             <ChoiceCard
-              icon={<Briefcase color="#FFF" size={18} />}
+              icon={<Briefcase color="#FFF" size={28} />}
               label="Broker"
+              description="Representing clients"
               selected={role === 'broker'}
               onPress={() => setRole('broker')}
               testID="survey-broker"
-            />
-            <ChoiceCard
-              icon={<Eye color="#FFF" size={18} />}
-              label="Just Browsing"
-              selected={role === 'visitor'}
-              onPress={() => setRole('visitor')}
-              testID="survey-visitor"
+              accentColor="#6366F1"
             />
           </View>
 
@@ -278,12 +277,25 @@ export default function SignUpScreen() {
   );
 }
 
-function ChoiceCard({ icon, label, selected, onPress, testID }: { icon: React.ReactNode; label: string; selected: boolean; onPress: () => void; testID?: string }) {
+function ChoiceCard({ icon, label, description, selected, onPress, testID, accentColor }: { icon: React.ReactNode; label: string; description: string; selected: boolean; onPress: () => void; testID?: string; accentColor: string }) {
+  const IconComponent = () => <>{icon}</>;
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.choice, selected && styles.choiceSelected]} testID={testID}>
-      <View style={styles.choiceIcon}>{icon}</View>
-      <Text style={styles.choiceLabel}>{label}</Text>
-      {selected && <Star color="#FDE68A" size={14} />}
+    <TouchableOpacity onPress={onPress} style={[styles.choice, selected && { ...styles.choiceSelected, borderColor: accentColor }]} testID={testID}>
+      <LinearGradient
+        colors={selected ? [accentColor + '20', accentColor + '10'] : ['#1F1F2E', '#1F1F2E']}
+        style={styles.choiceGradient}
+      >
+        <View style={[styles.choiceIconBg, { backgroundColor: accentColor + '30' }]}>
+          <IconComponent />
+        </View>
+        <Text style={styles.choiceLabel}>{label}</Text>
+        <Text style={styles.choiceDescription}>{description}</Text>
+        {selected && (
+          <View style={[styles.selectedBadge, { backgroundColor: accentColor }]}>
+            <Star color="#FFF" size={12} fill="#FFF" />
+          </View>
+        )}
+      </LinearGradient>
     </TouchableOpacity>
   );
 }
@@ -344,11 +356,56 @@ const styles = StyleSheet.create({
   linkText: { color: '#A1A1AA', fontSize: 14 },
   link: { padding: 4 },
   linkHighlight: { color: '#8B5CF6', fontSize: 14, fontWeight: '600' as const },
-  choicesRow: { flexDirection: 'row', gap: 8 as const, marginBottom: 16, justifyContent: 'center', flexWrap: 'wrap' as const },
-  choice: { minWidth: 80, alignItems: 'center', paddingVertical: 14, paddingHorizontal: 8, borderRadius: 14, backgroundColor: '#1F1F2E', borderWidth: 1, borderColor: '#2A2A3E' },
-  choiceSelected: { borderColor: '#8B5CF6', backgroundColor: '#22223A' },
-  choiceIcon: { marginBottom: 8 },
-  choiceLabel: { color: '#FFF', fontSize: 14, fontWeight: '600' as const },
+  choicesGrid: { gap: 12 as const, marginBottom: 24, marginTop: 8 },
+  choice: {
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#2A2A3E',
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  choiceSelected: {
+    borderWidth: 2,
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  choiceGradient: {
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    minHeight: 160,
+    justifyContent: 'center',
+  },
+  choiceIconBg: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  choiceLabel: { color: '#FFF', fontSize: 18, fontWeight: '700' as const, marginBottom: 6 },
+  choiceDescription: { color: '#9CA3AF', fontSize: 13, fontWeight: '500' as const },
+  selectedBadge: {
+    position: 'absolute' as const,
+    top: 12,
+    right: 12,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   bullets: { gap: 10 as const, marginVertical: 12, paddingHorizontal: 8 },
   bulletItem: { flexDirection: 'row', alignItems: 'center' },
   bulletDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#8B5CF6', marginRight: 8 },
