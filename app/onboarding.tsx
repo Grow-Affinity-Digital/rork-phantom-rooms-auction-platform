@@ -14,7 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ChevronRight, Gamepad2, TrendingUp, Shield, Sparkles } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
-import { PhantomRoomsLogo } from '@/components/PhantomRoomsLogo';
+import { ObsidianLogo } from '@/components/ObsidianLogo';
 
 const { width } = Dimensions.get('window');
 
@@ -95,7 +95,7 @@ export default function OnboardingScreen() {
       <SafeAreaView style={styles.safeArea}>
         <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
           <View style={styles.brandTop}>
-            <PhantomRoomsLogo size={32} testID="onboarding-logo" />
+            <ObsidianLogo size={32} variant="color" testID="onboarding-logo" />
           </View>
           <ScrollView
             ref={scrollViewRef}

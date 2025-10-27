@@ -21,11 +21,11 @@ export default function HelpSupportScreen() {
       <Text style={[styles.title, { color: colors.text }]}>Need help?</Text>
       <Text style={[styles.subtitle, { color: colors.textSecondary }]}>We usually respond within 24 hours.</Text>
 
-      <TouchableOpacity style={[styles.link, { borderColor: colors.border }]} onPress={() => open('mailto:support@phantomroom.io')} testID="help-email">
-        <Text style={[styles.linkText, { color: colors.primary }]}>Email support@phantomroom.io</Text>
+      <TouchableOpacity style={[styles.link, { borderColor: colors.border }]} onPress={() => open('mailto:support@obsidianauctions.com')} testID="help-email">
+        <Text style={[styles.linkText, { color: colors.primary }]}>Email support@obsidianauctions.com</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.link, { borderColor: colors.border }]} onPress={() => open('https://phantomroom.io/help')} testID="help-faq">
+      <TouchableOpacity style={[styles.link, { borderColor: colors.border }]} onPress={() => open('https://obsidianauctions.com/help')} testID="help-faq">
         <Text style={[styles.linkText, { color: colors.primary }]}>Open FAQs</Text>
       </TouchableOpacity>
     </View>

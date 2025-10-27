@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ArrowLeft, ChevronRight, Star, Apple, Home, Tag, Briefcase, Eye } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PhantomRoomsLogo, PhantomRoomsAppIcon } from '@/components/PhantomRoomsLogo';
+import { ObsidianLogo, ObsidianAppIcon } from '@/components/ObsidianLogo';
 
 type Step = 'splash' | 'survey' | 'form';
 
@@ -117,9 +117,9 @@ export default function SignUpScreen() {
 
       {step === 'splash' && (
         <View style={styles.centerWrap} testID="signup-splash">
-          <PhantomRoomsAppIcon size={96} testID="signup-splash-appicon" />
-          <Text style={styles.appTitle}>Phantom Rooms</Text>
-          <Text style={styles.appTag}>Rare spaces. Real opportunities.</Text>
+          <ObsidianAppIcon size={96} testID="signup-splash-appicon" />
+          <Text style={styles.appTitle}>Obsidian Auctions</Text>
+          <Text style={styles.appTag}>Exclusive auctions. Real opportunities.</Text>
           <TouchableOpacity style={styles.ctaBtn} onPress={() => proceed('survey')} testID="signup-get-started">
             <LinearGradient colors={['#8B5CF6', '#6366F1']} style={styles.btnGradient}>
               <Text style={styles.btnText}>Get started</Text>
@@ -182,8 +182,8 @@ export default function SignUpScreen() {
       {step === 'form' && (
         <View style={styles.form} testID="signup-form">
           <View style={styles.brandHeader}>
-            <PhantomRoomsLogo size={48} testID="signup-brand-logo" />
-            <Text style={styles.brandTitle}>Phantom Rooms</Text>
+            <ObsidianLogo size={48} variant="color" testID="signup-brand-logo" />
+            <Text style={styles.brandTitle}>Obsidian Auctions</Text>
           </View>
 
           <Text style={styles.title}>Create Account</Text>

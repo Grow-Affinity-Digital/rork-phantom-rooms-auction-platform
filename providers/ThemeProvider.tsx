@@ -40,65 +40,65 @@ export interface ThemeContextType {
 }
 
 const BRAND = {
-  purple: '#AB54F7',
-  blue: '#4F46E5',
-  deepPurple: '#6B46C1',
-  dark: '#1E1B4B',
-  lightPurple: '#8B5CF6',
+  neonGreen: '#D4FF00',
+  black: '#0A0A0B',
+  darkGray: '#1A1A1A',
+  lightGreen: '#E8FF66',
+  charcoal: '#141414',
 } as const;
 
 const darkTheme: ThemeColors = {
-  primary: BRAND.purple,
-  secondary: BRAND.blue,
-  background: BRAND.dark,
-  surface: '#17153a',
-  surfaceElevated: '#221f52',
-  card: '#141236',
-  input: '#0F0F2A',
-  overlay: 'rgba(0,0,0,0.6)',
+  primary: BRAND.neonGreen,
+  secondary: BRAND.lightGreen,
+  background: BRAND.black,
+  surface: '#141414',
+  surfaceElevated: '#1F1F1F',
+  card: '#1A1A1A',
+  input: '#0F0F0F',
+  overlay: 'rgba(0,0,0,0.8)',
   text: '#FFFFFF',
-  textSecondary: '#C7C9E2',
-  border: '#2C2A5A',
+  textSecondary: '#A0A0A0',
+  border: '#2A2A2A',
   success: '#10B981',
   warning: '#F59E0B',
   error: '#EF4444',
-  accent: BRAND.lightPurple,
-  accent2: '#F472B6',
+  accent: BRAND.neonGreen,
+  accent2: BRAND.lightGreen,
   accent3: '#34D399',
-  link: '#60A5FA',
-  gradientPrimary: [BRAND.purple, BRAND.blue],
-  gradientAccent: [BRAND.lightPurple, BRAND.purple],
+  link: BRAND.neonGreen,
+  gradientPrimary: [BRAND.neonGreen, BRAND.lightGreen],
+  gradientAccent: [BRAND.lightGreen, BRAND.neonGreen],
 };
 
 const lightTheme: ThemeColors = {
-  primary: BRAND.purple,
-  secondary: BRAND.blue,
+  primary: BRAND.black,
+  secondary: BRAND.darkGray,
   background: '#FFFFFF',
-  surface: '#F7F7FB',
-  surfaceElevated: '#EEF0FB',
+  surface: '#F5F5F5',
+  surfaceElevated: '#EBEBEB',
   card: '#FFFFFF',
   input: '#FFFFFF',
   overlay: 'rgba(0,0,0,0.08)',
-  text: '#111827',
+  text: '#0A0A0B',
   textSecondary: '#4B5563',
   border: '#E5E7EB',
   success: '#059669',
   warning: '#D97706',
   error: '#DC2626',
-  accent: BRAND.lightPurple,
-  accent2: BRAND.purple,
-  accent3: BRAND.blue,
-  link: '#2563EB',
-  gradientPrimary: [BRAND.purple, BRAND.blue],
-  gradientAccent: [BRAND.lightPurple, BRAND.purple],
+  accent: BRAND.neonGreen,
+  accent2: BRAND.lightGreen,
+  accent3: BRAND.darkGray,
+  link: '#0A0A0B',
+  gradientPrimary: [BRAND.neonGreen, BRAND.lightGreen],
+  gradientAccent: [BRAND.lightGreen, BRAND.neonGreen],
 };
 
 const brandPalette: string[] = [
-  BRAND.purple,
-  BRAND.blue,
-  BRAND.deepPurple,
-  BRAND.dark,
-  BRAND.lightPurple,
+  BRAND.neonGreen,
+  BRAND.black,
+  BRAND.darkGray,
+  BRAND.lightGreen,
+  BRAND.charcoal,
 ];
 
 const THEME_KEY = 'app_theme_mode_v1';
@@ -180,10 +180,10 @@ export const [ThemeProvider, useTheme] = createContextHook<ThemeContextType>(() 
     if (root) {
       root.style.backgroundColor = colors.background;
       root.style.color = colors.text;
-      root.style.setProperty('--phantom-purple', BRAND.purple);
-      root.style.setProperty('--phantom-blue', BRAND.blue);
-      root.style.setProperty('--phantom-dark', BRAND.dark);
-      root.style.setProperty('--phantom-light', BRAND.lightPurple);
+      root.style.setProperty('--obsidian-neon', BRAND.neonGreen);
+      root.style.setProperty('--obsidian-black', BRAND.black);
+      root.style.setProperty('--obsidian-dark', BRAND.darkGray);
+      root.style.setProperty('--obsidian-light', BRAND.lightGreen);
     }
   }
 

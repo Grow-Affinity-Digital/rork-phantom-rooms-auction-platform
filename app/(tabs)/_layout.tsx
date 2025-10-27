@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 import * as Haptics from "expo-haptics";
 import { useAuth } from "@/providers/AuthProvider";
 import { useTheme } from "@/providers/ThemeProvider";
-import { PhantomRoomsLogo } from "@/components/PhantomRoomsLogo";
+import { ObsidianLogo } from "@/components/ObsidianLogo";
 import { ExploreIcon, SellingIcon, BuyingIcon, AlertsIcon, ProfileIcon } from "@/components/IconSet";
 
 export default function TabLayout() {
@@ -63,7 +63,7 @@ export default function TabLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color }) => <ExploreIcon color={color} size={24} />,
-          headerTitle: () => <PhantomRoomsLogo size={28} testID="header-logo" />,
+          headerTitle: () => <ObsidianLogo size={28} variant="dark" testID="header-logo" />,
         }}
       />
       <Tabs.Screen

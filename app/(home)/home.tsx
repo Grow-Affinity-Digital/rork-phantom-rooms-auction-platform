@@ -12,7 +12,7 @@ export default function HomePage() {
     <SafeAreaView style={styles.container}>
       <SignedIn>
         <View style={styles.content}>
-          <Text style={styles.title}>Welcome to Phantom Rooms</Text>
+          <Text style={styles.title}>Welcome to Obsidian Auctions</Text>
           <Text style={styles.subtitle}>
             Hello {user?.emailAddresses[0].emailAddress}
           </Text>
@@ -25,7 +25,7 @@ export default function HomePage() {
       
       <SignedOut>
         <View style={styles.content}>
-          <Text style={styles.title}>Welcome to Phantom Rooms</Text>
+          <Text style={styles.title}>Welcome to Obsidian Auctions</Text>
           <Text style={styles.subtitle}>
             Please sign in to continue
           </Text>
